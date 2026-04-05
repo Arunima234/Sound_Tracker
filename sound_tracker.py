@@ -1,22 +1,3 @@
-"""
-🎵 Sound Tracker – Eye Iris Visualizer  (Black & White Edition)
-===============================================================
-• Pure black & white – no RGB colour shifts
-• Captures ALL PC audio (Spotify, YouTube, etc.) via Stereo Mix
-• Falls back to microphone if Stereo Mix is not found
-
-Requirements:
-    pip install sounddevice numpy pygame
-
-Setup for PC audio capture (Windows):
-    1. Right-click speaker icon → Sounds → Recording tab
-    2. Right-click empty area → Show Disabled Devices
-    3. Enable "Stereo Mix" → Set as Default Device
-    Then re-run this script.
-
-Run:
-    python sound_tracker.py
-"""
 # cspell:ignore indata wasapi rfftfreq freqs roff consolas greyscale gsurf hanning lsurf rfft rsurf samplerate  
 
 import numpy as np
@@ -73,11 +54,6 @@ def freq_band_energy(fft_data, low_hz, high_hz):
     mask  = (freqs >= low_hz) & (freqs <= high_hz)
     band  = fft_data[mask]
     return float(np.sqrt(np.mean(band ** 2))) if len(band) > 0 else 0.0
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Drawing — pure black & white palette
-# ─────────────────────────────────────────────────────────────────────────────
 
 def draw_eye_iris(surface, cx, cy, iris_r, pupil_r, bass, mid, high, frame):
     """
@@ -242,11 +218,6 @@ def draw_waveform(surface, waveform_buf, center_y, width):
     pts  = [(int(i * step), int(center_y + v * 45)) for i, v in enumerate(data)]
     pygame.draw.lines(surface, (60, 60, 60), False, pts, 1)
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-#  Main
-# ─────────────────────────────────────────────────────────────────────────────
-
 def main():
     pygame.init()
     pygame.display.set_caption("Sound Tracker")
@@ -287,7 +258,7 @@ def main():
     except Exception as e:
         print(f"[Audio] ❌ Stream error: {e}")
 
-    # ── Layout ────────────────────────────────────────────────────────────────
+    # Layout 
     SPEC_H  = 110
     MARGIN  = 18
     EYE_AREA = HEIGHT - SPEC_H - MARGIN * 2
@@ -327,7 +298,7 @@ def main():
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False
 
-        # ── Audio ─────────────────────────────────────────────────────────────
+        # Audio 
         raw_bass = raw_mid = raw_high = 0.0
         if stream_ok:
             with buffer_lock:
@@ -347,7 +318,7 @@ def main():
         mid  = min(1.0, np.mean(mid_hist)  * 12)
         high = min(1.0, raw_high            * 8)
 
-        # ── Physics ───────────────────────────────────────────────────────────
+        # Physics 
         vx += (mid - 0.5) * 2.2 + math.sin(frame * 0.033) * 0.5
         vy -= bass * 13
         vy += GRAVITY
@@ -369,7 +340,7 @@ def main():
         if ey < top_wall:   ey = top_wall;   vy =  abs(vy) * BOUNCE
         if ey > bot_wall:   ey = bot_wall;   vy = -abs(vy) * BOUNCE
 
-        # ── Render ────────────────────────────────────────────────────────────
+        #  Render 
         screen.blit(bg, (0, 0))
 
         # Waveform
