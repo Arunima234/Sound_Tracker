@@ -8,7 +8,7 @@ import sys
 from collections import deque
 import threading
 
-# ── Audio Config ──────────────────────────────────────────────────────────────
+# Audio Config 
 CHUNK    = 1024
 RATE     = 44100
 CHANNELS = 1
@@ -17,11 +17,11 @@ BASS_LOW  = 60;   BASS_HIGH  = 250
 MID_LOW   = 250;  MID_HIGH   = 2000
 HIGH_LOW  = 2000; HIGH_HIGH  = 8000
 
-# ── Display ───────────────────────────────────────────────────────────────────
+# Display 
 WIDTH, HEIGHT = 950, 750
 FPS           = 300
 
-# ── Shared audio buffer ───────────────────────────────────────────────────────
+# Shared audio buffer 
 audio_buffer = np.zeros(CHUNK, dtype=np.float32)
 buffer_lock  = threading.Lock()
 
